@@ -59,8 +59,13 @@ export default function CreateJobPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!user) {
+      alert('You must be logged in to create a job');
+      return;
+    }
+
     if (!formData.title || !formData.description || !formData.location) {
-      alert('Please fill in all required fields');
+      alert('Please fill in all required fields: Title, Description, and Location');
       return;
     }
 
@@ -70,19 +75,22 @@ export default function CreateJobPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          createdBy: user?.id,
+          createdBy: user.id,
         }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to create job');
+        throw new Error(data.error || 'Failed to create job');
       }
 
       // Redirect to jobs list
       router.push('/jobs');
     } catch (error) {
       console.error('Error creating job:', error);
-      alert('Failed to create job. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert(`Failed to create job: ${errorMessage}`);
     }
   };
 

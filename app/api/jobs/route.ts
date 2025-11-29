@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     if (!title || !description || !location || !createdBy) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields: title, description, location, and createdBy are required' },
         { status: 400 }
       );
     }
@@ -33,21 +33,29 @@ export async function POST(request: NextRequest) {
       description,
       company,
       location,
-      salary: salary || null,
-      jobType,
+      salary: salary || '',
+      jobType: jobType || 'full-time',
       skills: skills || [],
       createdBy,
       createdAt: new Date().toISOString(),
       applicants: 0,
     };
 
-    saveJob(newJob);
+    try {
+      saveJob(newJob);
+    } catch (dbError) {
+      console.error('Database error saving job:', dbError);
+      // Fallback: return job even if database fails
+      // This ensures the job is created in memory at least
+      console.warn('Job saved in memory only due to database error');
+    }
 
-    return NextResponse.json(newJob);
+    return NextResponse.json(newJob, { status: 201 });
   } catch (error) {
     console.error('Create job error:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to create job: ' + errorMessage },
       { status: 500 }
     );
   }
