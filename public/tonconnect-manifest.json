@@ -1,7 +1,5 @@
 {
   "url": "https://jobezzy-omega.vercel.app",
   "name": "JOBEZZY",
-  "iconUrl": "https://jobezzy-omega.vercel.app/icon.png",
-  "termsOfUseUrl": "https://jobezzy-omega.vercel.app/terms",
-  "privacyPolicyUrl": "https://jobezzy-omega.vercel.app/privacy"
+  "description": "Decentralized recruitment platform with real TON payments"
 }

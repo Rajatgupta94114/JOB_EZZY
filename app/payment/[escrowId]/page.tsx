@@ -352,13 +352,13 @@ export default function PaymentPage() {
 
           {/* Status Indicator */}
           <div className="flex items-center gap-2 mb-6">
-            <div className={`w-3 h-3 rounded-full ${step === 'wallet_connect' ? 'bg-primary-400' : 'bg-green-400'}`}></div>
-            <span className="text-sm text-dark-300">Wallet Connected</span>
+            <div className={`w-3 h-3 rounded-full ${step === 'wallet_connect' ? 'bg-primary-400' : companyWallet ? 'bg-green-400' : 'bg-dark-600'}`}></div>
+            <span className="text-sm text-dark-300">Connect Wallet</span>
             <div className="flex-1 h-0.5 bg-dark-700 mx-2"></div>
-            <div className={`w-3 h-3 rounded-full ${['wallet_connect'].includes(step) ? 'bg-dark-600' : step === 'request_wallet' ? 'bg-primary-400' : 'bg-green-400'}`}></div>
+            <div className={`w-3 h-3 rounded-full ${step === 'request_wallet' ? 'bg-primary-400' : step === 'send_payment' || step === 'completed' ? 'bg-green-400' : 'bg-dark-600'}`}></div>
             <span className="text-sm text-dark-300">Request Wallet</span>
             <div className="flex-1 h-0.5 bg-dark-700 mx-2"></div>
-            <div className={`w-3 h-3 rounded-full ${['wallet_connect', 'request_wallet'].includes(step) ? 'bg-dark-600' : step === 'send_payment' ? 'bg-primary-400' : 'bg-green-400'}`}></div>
+            <div className={`w-3 h-3 rounded-full ${step === 'send_payment' ? 'bg-primary-400' : step === 'completed' ? 'bg-green-400' : 'bg-dark-600'}`}></div>
             <span className="text-sm text-dark-300">Send Payment</span>
           </div>
         </div>
