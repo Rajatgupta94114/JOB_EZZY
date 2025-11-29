@@ -203,7 +203,6 @@ export function saveUser(user: any) {
 }
 
 export function saveUsers(users: any[]) {
-  const db = getDatabase();
   users.forEach(user => saveUser(user));
 }
 
@@ -229,7 +228,6 @@ export function saveJob(job: any) {
 }
 
 export function saveJobs(jobs: any[]) {
-  const db = getDatabase();
   jobs.forEach(job => saveJob(job));
 }
 
@@ -255,7 +253,6 @@ export function saveApplication(app: any) {
 }
 
 export function saveApplications(applications: any[]) {
-  const db = getDatabase();
   applications.forEach(app => saveApplication(app));
 }
 
@@ -281,7 +278,6 @@ export function saveEscrow(escrow: any) {
 }
 
 export function saveEscrows(escrows: any[]) {
-  const db = getDatabase();
   escrows.forEach(escrow => saveEscrow(escrow));
 }
 
@@ -307,7 +303,6 @@ export function savePayment(payment: any) {
 }
 
 export function savePayments(payments: any[]) {
-  const db = getDatabase();
   payments.forEach(payment => savePayment(payment));
 }
 
@@ -333,7 +328,6 @@ export function saveRating(rating: any) {
 }
 
 export function saveRatings(ratings: any[]) {
-  const db = getDatabase();
   ratings.forEach(rating => saveRating(rating));
 }
 
@@ -354,7 +348,6 @@ export function saveConnection(connection: any) {
 }
 
 export function saveConnections(connections: any[]) {
-  const db = getDatabase();
   connections.forEach(connection => saveConnection(connection));
 }
 
@@ -375,7 +368,6 @@ export function saveMessage(message: any) {
 }
 
 export function saveMessages(messages: any[]) {
-  const db = getDatabase();
   messages.forEach(message => saveMessage(message));
 }
 
@@ -396,7 +388,6 @@ export function saveNotification(notification: any) {
 }
 
 export function saveNotifications(notifications: any[]) {
-  const db = getDatabase();
   notifications.forEach(notification => saveNotification(notification));
 }
 
