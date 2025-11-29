@@ -82,5 +82,17 @@
     "applicationId": "1764236286732",
     "read": false,
     "createdAt": "2025-11-27T09:38:58.919Z"
+  },
+  {
+    "id": "notif_1764403658296",
+    "senderId": "user_1764220225686_mzgl9bw6r",
+    "recipientId": "user_1764220383954_n6sg9oonn",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "Himanshi company has created an escrow contract for the position of Devops. Please review and approve the contract.",
+    "escrowId": "escrow_1764403657988",
+    "applicationId": "1764403557300",
+    "read": false,
+    "createdAt": "2025-11-29T08:07:38.296Z"
   }
 ]

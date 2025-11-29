@@ -81,7 +81,7 @@
     "name": "Himanshi company",
     "username": "Himanshi company",
     "role": "company",
-    "walletAddress": "0:8f325adf129b5701a02fb9a081d78d12b35f36d3f413f93f2b93b747e43af188",
+    "walletAddress": "0:b5d8b0a351988796138ec18cac6bb13141b924b70f79e10d11eb556f8c66d31d",
     "rating": 0,
     "pointsBalance": 0,
     "kycStatus": "pending",
@@ -130,5 +130,16 @@
     "pointsBalance": 0,
     "kycStatus": "pending",
     "createdAt": "2025-11-29T07:29:30.719Z"
+  },
+  {
+    "id": "user_1764404137358_1agsd8xg9",
+    "name": "Rajat company",
+    "username": "Rajat company",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-29T08:15:37.358Z"
   }
 ]

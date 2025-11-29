@@ -183,7 +183,7 @@ export default function PaymentPage() {
           {
             address: candidateWallet,
             amount: (parseFloat(escrow?.amount || '0') * 1e9).toString(), // Convert TON to nanotons
-            payload: 'te4VcgEBAQEADAADABFqYXNvbiBwYXltZW50', // Base64 encoded "json payment"
+            // No payload for simple transfer
           },
         ],
       };
@@ -232,6 +232,9 @@ export default function PaymentPage() {
               }),
             });
 
+            // Trigger coin animation
+            setShowCoinAnimation(true);
+            
             setStep('completed');
             alert('Payment sent successfully! Transaction is being processed on the TON blockchain.');
           }

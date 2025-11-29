@@ -117,5 +117,22 @@
     "confirmationStatus": "confirmed",
     "createdAt": "2025-11-27T09:38:58.505Z",
     "updatedAt": "2025-11-27T09:39:28.394Z"
+  },
+  {
+    "id": "escrow_1764403657988",
+    "applicationId": "1764403557300",
+    "companyId": "user_1764220225686_mzgl9bw6r",
+    "candidateId": "user_1764220383954_n6sg9oonn",
+    "jobTitle": "Devops",
+    "startDate": "2025-11-29",
+    "endDate": "2025-11-30",
+    "amount": "0.5",
+    "currency": "TON",
+    "description": "ABCD",
+    "terms": "ABCD",
+    "status": "active",
+    "confirmationStatus": "confirmed",
+    "createdAt": "2025-11-29T08:07:37.989Z",
+    "updatedAt": "2025-11-29T08:08:23.719Z"
   }
 ]
