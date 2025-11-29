@@ -8,6 +8,7 @@ import { useTonConnectUI } from '@tonconnect/ui-react';
 import { ArrowLeft, Wallet, Send, Copy, Check } from 'lucide-react';
 import CoinAnimation from '@/components/CoinAnimation';
 import RatingModal from '@/components/RatingModal';
+import { useTonWallet } from '@/hooks/useTonWallet';
 
 interface Escrow {
   id: string;
@@ -40,17 +41,16 @@ export default function PaymentPage() {
   const params = useParams();
   const escrowId = params.escrowId as string;
   const { user, isAuthenticated } = useAuthStore();
+  const { walletAddress: companyWallet, isConnecting: connecting, connectWallet } = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
 
   const [escrow, setEscrow] = useState<Escrow | null>(null);
   const [payment, setPayment] = useState<Payment | null>(null);
   const [loading, setLoading] = useState(true);
-  const [companyWallet, setCompanyWallet] = useState('');
   const [candidateWallet, setCandidateWallet] = useState('');
   const [step, setStep] = useState<'wallet_connect' | 'request_wallet' | 'send_payment' | 'completed'>('wallet_connect');
   const [copied, setCopied] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [connecting, setConnecting] = useState(false);
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [companyName, setCompanyName] = useState('');
@@ -59,20 +59,12 @@ export default function PaymentPage() {
     fetchData();
   }, [escrowId]);
 
-  // Monitor wallet connection status
+  // Auto-proceed to next step when wallet is connected
   useEffect(() => {
-    const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
-      if (wallet) {
-        setCompanyWallet(wallet.account.address);
-        // Auto-proceed to next step if wallet is connected
-        if (step === 'wallet_connect') {
-          setStep('request_wallet');
-        }
-      }
-    });
-
-    return () => unsubscribe();
-  }, [tonConnectUI, step]);
+    if (companyWallet && step === 'wallet_connect') {
+      setStep('request_wallet');
+    }
+  }, [companyWallet, step]);
 
   const fetchData = async () => {
     try {
@@ -118,15 +110,11 @@ export default function PaymentPage() {
   };
 
   const handleConnectWallet = async () => {
-    setConnecting(true);
     try {
-      // Open TonConnect modal to connect wallet
-      await tonConnectUI.openModal();
+      await connectWallet();
     } catch (error) {
-      console.error('Error opening wallet modal:', error);
-      alert('Failed to open wallet modal. Please try again.');
-    } finally {
-      setConnecting(false);
+      console.error('Error with wallet connection:', error);
+      alert('Failed to connect wallet. Please try again.');
     }
   };
 

@@ -81,7 +81,7 @@
     "name": "Himanshi company",
     "username": "Himanshi company",
     "role": "company",
-    "walletAddress": null,
+    "walletAddress": "0:8f325adf129b5701a02fb9a081d78d12b35f36d3f413f93f2b93b747e43af188",
     "rating": 0,
     "pointsBalance": 0,
     "kycStatus": "pending",
@@ -119,5 +119,16 @@
     "pointsBalance": 0,
     "kycStatus": "pending",
     "createdAt": "2025-11-27T09:34:30.059Z"
+  },
+  {
+    "id": "user_1764401370719_ey16j14ws",
+    "name": "Divyansh tiwari",
+    "username": "Divyansh tiwari",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-29T07:29:30.719Z"
   }
 ]

@@ -11,5 +11,18 @@
     "status": "completed",
     "createdAt": "2025-11-27T08:41:04.365Z",
     "updatedAt": "2025-11-27T08:55:45.347Z"
+  },
+  {
+    "id": "payment_1764401312857",
+    "escrowId": "escrow_1764236338505",
+    "companyId": "user_1764220225686_mzgl9bw6r",
+    "candidateId": "user_1764236070059_xhuc33xkr",
+    "amount": "200",
+    "currency": "TON",
+    "candidateWalletAddress": null,
+    "transactionHash": null,
+    "status": "wallet_requested",
+    "createdAt": "2025-11-29T07:28:32.858Z",
+    "updatedAt": "2025-11-29T07:28:32.858Z"
   }
 ]

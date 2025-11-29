@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
-    <TonConnectUIProvider manifestUrl="https://jobezzy.vercel.app/tonconnect-manifest.json">
+    <TonConnectUIProvider manifestUrl={process.env.NEXT_PUBLIC_TON_CONNECT_MANIFEST || "https://jobezzy-omega.vercel.app"}>
       {children}
     </TonConnectUIProvider>
   );
