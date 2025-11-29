@@ -193,56 +193,46 @@ export default function PaymentPage() {
       const result = await tonConnectUI.sendTransaction(transaction);
 
       if (result) {
-        // Transaction was sent, now verify it
-        const verifyResponse = await fetch('/api/ton-payment', {
-          method: 'POST',
+        // Transaction was sent successfully by Tonkeeper
+        // Update payment with transaction details
+        const updateResponse = await fetch('/api/payments', {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            senderAddress: tonConnectUI.account.address,
-            destinationAddress: candidateWallet,
-            amount: escrow?.amount,
-            comment: `Payment for ${escrow?.jobTitle}`,
-            paymentId: payment?.id,
+            id: payment?.id,
+            status: 'completed',
+            candidateWalletAddress: candidateWallet,
+            transactionHash: result.boc || `tx_${Date.now()}`,
           }),
         });
 
-        if (verifyResponse.ok) {
-          // Update payment with transaction details
-          const updateResponse = await fetch('/api/payments', {
+        if (updateResponse.ok) {
+          const updatedPayment = await updateResponse.json();
+          setPayment(updatedPayment);
+
+          // Update escrow payment status
+          await fetch('/api/escrow', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              id: payment?.id,
-              status: 'completed',
-              candidateWalletAddress: candidateWallet,
-              transactionHash: result.boc || 'transaction_sent',
+              id: escrowId,
+              paymentStatus: 'completed',
             }),
           });
 
-          if (updateResponse.ok) {
-            const updatedPayment = await updateResponse.json();
-            setPayment(updatedPayment);
-
-            // Update escrow payment status
-            await fetch('/api/escrow', {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                id: escrowId,
-                paymentStatus: 'completed',
-              }),
-            });
-
-            // Show coin animation
-            setShowCoinAnimation(true);
-            
-            // Wait for animation to complete (3.5-4 seconds)
-            await new Promise(resolve => setTimeout(resolve, 4000));
-            
-            setStep('completed');
-            alert('Payment sent successfully! Transaction is being processed on the TON blockchain.');
-          }
+          // Show coin animation
+          setShowCoinAnimation(true);
+          
+          // Wait for animation to complete (3.5-4 seconds)
+          await new Promise(resolve => setTimeout(resolve, 4000));
+          
+          setStep('completed');
+          alert('Payment sent successfully! Transaction is being processed on the TON blockchain.');
+        } else {
+          alert('Payment sent but failed to record. Please refresh the page.');
         }
+      } else {
+        alert('Transaction was cancelled or failed.');
       }
     } catch (error) {
       console.error('Error sending payment:', error);

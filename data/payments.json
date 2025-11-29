@@ -45,10 +45,10 @@
     "candidateId": "user_1764404958640_97dqjczux",
     "amount": "0.05",
     "currency": "TON",
-    "candidateWalletAddress": null,
-    "transactionHash": null,
-    "status": "wallet_requested",
+    "candidateWalletAddress": "0QDslg9pPqcEYOqzYSWTjA1NzwwHlEdyhGcUZuAbWzVehLaA",
+    "transactionHash": "te6ccgEBBQEAuwABRYgBa7FhRqMxDywnHYMZWNdiYoNySW4e88IaI9aq3xjNpjoMAQGhc2lnbn////1pKreZAAAAB6cXyrs+16YzTVp4quCEXPji30T1V1tv1YU+Kn5iqm1YdWeqjwHfwrpwx5rMamZyEg1petkscBhEdORMNYXYAMKgAgIKDsPIbQMDBAAAAGhCAHZLB7SfU4IwdVmwksnGBqbnhgPKI7lCM4ozcA2tmq9CIBfXhAAAAAAAAAAAAAAAAAAA",
+    "status": "completed",
     "createdAt": "2025-11-29T08:44:13.609Z",
-    "updatedAt": "2025-11-29T08:44:13.609Z"
+    "updatedAt": "2025-11-29T08:56:47.296Z"
   }
 ]
