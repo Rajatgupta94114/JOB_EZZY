@@ -135,5 +135,20 @@
     "createdBy": "user_1764404137358_1agsd8xg9",
     "createdAt": "2025-11-29T08:16:27.061Z",
     "applicants": 0
+  },
+  {
+    "id": "job_1764415861781_6kw91vqmm",
+    "title": "AWS",
+    "description": "AWS",
+    "company": "Divyansh company",
+    "location": "noida",
+    "salary": "0.05",
+    "jobType": "full-time",
+    "skills": [
+      "react"
+    ],
+    "createdBy": "user_1764415832175_x1gefplu4",
+    "createdAt": "2025-11-29T11:31:01.781Z",
+    "applicants": 0
   }
 ]

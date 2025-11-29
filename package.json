@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/init-db.js && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "init-db": "node scripts/init-db.js"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@ton/crypto": "^3.2.0",

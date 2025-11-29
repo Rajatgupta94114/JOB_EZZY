@@ -1,5 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPayments, savePayments } from '@/lib/db';
+import fs from 'fs';
+import path from 'path';
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.json');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+
+function initializePaymentsFile() {
+  ensureDataDir();
+  if (!fs.existsSync(PAYMENTS_FILE)) {
+    fs.writeFileSync(PAYMENTS_FILE, JSON.stringify([], null, 2));
+  }
+}
+
+function getPayments() {
+  initializePaymentsFile();
+  const data = fs.readFileSync(PAYMENTS_FILE, 'utf-8');
+  return JSON.parse(data);
+}
+
+function savePayments(payments: any[]) {
+  ensureDataDir();
+  fs.writeFileSync(PAYMENTS_FILE, JSON.stringify(payments, null, 2));
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -90,22 +118,21 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing payment id' }, { status: 400 });
     }
 
-    const payments = getPayments() as any[];
+    const payments = getPayments();
     const index = payments.findIndex((p: any) => p.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Payment not found' }, { status: 404 });
     }
 
-    const payment = payments[index] as any;
-    if (status) payment.status = status;
-    if (candidateWalletAddress) payment.candidateWalletAddress = candidateWalletAddress;
-    if (transactionHash) payment.transactionHash = transactionHash;
+    if (status) payments[index].status = status;
+    if (candidateWalletAddress) payments[index].candidateWalletAddress = candidateWalletAddress;
+    if (transactionHash) payments[index].transactionHash = transactionHash;
 
-    payment.updatedAt = new Date().toISOString();
+    payments[index].updatedAt = new Date().toISOString();
 
     savePayments(payments);
-    return NextResponse.json(payment);
+    return NextResponse.json(payments[index]);
   } catch (error) {
     console.error('Error updating payment:', error);
     return NextResponse.json({ error: 'Failed to update payment' }, { status: 500 });

@@ -1,5 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getNotifications, saveNotifications } from '@/lib/db';
+import fs from 'fs';
+import path from 'path';
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const NOTIFICATIONS_FILE = path.join(DATA_DIR, 'notifications.json');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+
+function initializeNotificationsFile() {
+  ensureDataDir();
+  if (!fs.existsSync(NOTIFICATIONS_FILE)) {
+    fs.writeFileSync(NOTIFICATIONS_FILE, JSON.stringify([], null, 2));
+  }
+}
+
+function getNotifications() {
+  initializeNotificationsFile();
+  const data = fs.readFileSync(NOTIFICATIONS_FILE, 'utf-8');
+  return JSON.parse(data);
+}
+
+function saveNotifications(notifications: any[]) {
+  ensureDataDir();
+  fs.writeFileSync(NOTIFICATIONS_FILE, JSON.stringify(notifications, null, 2));
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -66,20 +94,19 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing notification id' }, { status: 400 });
     }
 
-    const notifications = getNotifications() as any[];
+    const notifications = getNotifications();
     const index = notifications.findIndex((n: any) => n.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Notification not found' }, { status: 404 });
     }
 
-    const notification = notifications[index] as any;
     if (read !== undefined) {
-      notification.read = read;
+      notifications[index].read = read;
     }
 
     saveNotifications(notifications);
-    return NextResponse.json(notification);
+    return NextResponse.json(notifications[index]);
   } catch (error) {
     console.error('Error updating notification:', error);
     return NextResponse.json({ error: 'Failed to update notification' }, { status: 500 });

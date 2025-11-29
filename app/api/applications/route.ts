@@ -65,21 +65,20 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing application id' }, { status: 400 });
     }
 
-    const applications = getApplications() as any[];
+    const applications = getApplications();
     const index = applications.findIndex((a: any) => a.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Application not found' }, { status: 404 });
     }
 
-    const app = applications[index] as any;
-    if (status) app.status = status;
-    if (escrowContractId) app.escrowContractId = escrowContractId;
-    if (contractAccepted !== undefined) app.contractAccepted = contractAccepted;
-    if (contractAcceptedAt) app.contractAcceptedAt = contractAcceptedAt;
+    if (status) applications[index].status = status;
+    if (escrowContractId) applications[index].escrowContractId = escrowContractId;
+    if (contractAccepted !== undefined) applications[index].contractAccepted = contractAccepted;
+    if (contractAcceptedAt) applications[index].contractAcceptedAt = contractAcceptedAt;
 
     saveApplications(applications);
-    return NextResponse.json(app);
+    return NextResponse.json(applications[index]);
   } catch (error) {
     console.error('Error updating application:', error);
     return NextResponse.json({ error: 'Failed to update application' }, { status: 500 });

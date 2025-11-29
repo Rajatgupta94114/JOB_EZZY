@@ -152,5 +152,27 @@
     "pointsBalance": 0,
     "kycStatus": "pending",
     "createdAt": "2025-11-29T08:29:18.640Z"
+  },
+  {
+    "id": "user_1764415832175_x1gefplu4",
+    "name": "Divyansh company",
+    "username": "Divyansh company",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-29T11:30:32.175Z"
+  },
+  {
+    "id": "user_1764415881332_of0i0nbif",
+    "name": "Lakshay",
+    "username": "Lakshay",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-29T11:31:21.332Z"
   }
 ]

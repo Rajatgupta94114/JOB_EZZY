@@ -1,5 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getEscrows, saveEscrows } from '@/lib/db';
+import fs from 'fs';
+import path from 'path';
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const ESCROW_FILE = path.join(DATA_DIR, 'escrow.json');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+
+function initializeEscrowFile() {
+  ensureDataDir();
+  if (!fs.existsSync(ESCROW_FILE)) {
+    fs.writeFileSync(ESCROW_FILE, JSON.stringify([], null, 2));
+  }
+}
+
+function getEscrows() {
+  initializeEscrowFile();
+  const data = fs.readFileSync(ESCROW_FILE, 'utf-8');
+  return JSON.parse(data);
+}
+
+function saveEscrows(escrows: any[]) {
+  ensureDataDir();
+  fs.writeFileSync(ESCROW_FILE, JSON.stringify(escrows, null, 2));
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -87,30 +115,29 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing escrow id' }, { status: 400 });
     }
 
-    const escrows = getEscrows() as any[];
+    const escrows = getEscrows();
     const index = escrows.findIndex((e: any) => e.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Escrow not found' }, { status: 404 });
     }
 
-    const escrow = escrows[index] as any;
     if (status) {
-      escrow.status = status;
+      escrows[index].status = status;
     }
 
     if (confirmationStatus) {
-      escrow.confirmationStatus = confirmationStatus;
+      escrows[index].confirmationStatus = confirmationStatus;
     }
 
     if (paymentStatus) {
-      escrow.paymentStatus = paymentStatus;
+      escrows[index].paymentStatus = paymentStatus;
     }
 
-    escrow.updatedAt = new Date().toISOString();
+    escrows[index].updatedAt = new Date().toISOString();
 
     saveEscrows(escrows);
-    return NextResponse.json(escrow);
+    return NextResponse.json(escrows[index]);
   } catch (error) {
     console.error('Error updating escrow:', error);
     return NextResponse.json({ error: 'Failed to update escrow' }, { status: 500 });

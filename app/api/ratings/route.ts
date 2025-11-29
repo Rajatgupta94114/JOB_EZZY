@@ -1,5 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRatings, saveRatings } from '@/lib/db';
+import fs from 'fs';
+import path from 'path';
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const RATINGS_FILE = path.join(DATA_DIR, 'ratings.json');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+
+function initializeRatingsFile() {
+  ensureDataDir();
+  if (!fs.existsSync(RATINGS_FILE)) {
+    fs.writeFileSync(RATINGS_FILE, JSON.stringify([], null, 2));
+  }
+}
+
+function getRatings() {
+  initializeRatingsFile();
+  const data = fs.readFileSync(RATINGS_FILE, 'utf-8');
+  return JSON.parse(data);
+}
+
+function saveRatings(ratings: any[]) {
+  ensureDataDir();
+  fs.writeFileSync(RATINGS_FILE, JSON.stringify(ratings, null, 2));
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -45,7 +73,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ratings = getRatings() as any[];
+    const ratings = getRatings();
 
     // Check if rating already exists
     const existingIndex = ratings.findIndex(
@@ -54,9 +82,8 @@ export async function POST(request: NextRequest) {
 
     if (existingIndex !== -1) {
       // Update existing rating
-      const existingRating = ratings[existingIndex] as any;
       ratings[existingIndex] = {
-        ...existingRating,
+        ...ratings[existingIndex],
         rating,
         comment: comment || '',
         updatedAt: new Date().toISOString(),
@@ -98,20 +125,19 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const ratings = getRatings() as any[];
+    const ratings = getRatings();
     const index = ratings.findIndex((r: any) => r.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Rating not found' }, { status: 404 });
     }
 
-    const ratingObj = ratings[index] as any;
-    ratingObj.rating = rating;
-    if (comment !== undefined) ratingObj.comment = comment;
-    ratingObj.updatedAt = new Date().toISOString();
+    ratings[index].rating = rating;
+    if (comment !== undefined) ratings[index].comment = comment;
+    ratings[index].updatedAt = new Date().toISOString();
 
     saveRatings(ratings);
-    return NextResponse.json(ratingObj);
+    return NextResponse.json(ratings[index]);
   } catch (error) {
     console.error('Error updating rating:', error);
     return NextResponse.json({ error: 'Failed to update rating' }, { status: 500 });

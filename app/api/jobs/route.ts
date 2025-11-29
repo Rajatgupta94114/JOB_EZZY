@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     const jobs = getJobs();
     const jobId = `job_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    const now = new Date().toISOString();
     const newJob = {
       id: jobId,
       title,
@@ -39,11 +38,7 @@ export async function POST(request: NextRequest) {
       jobType,
       skills: skills || [],
       createdBy,
-      budget: salary || null,
-      currency: 'TON',
-      status: 'open',
-      createdAt: now,
-      updatedAt: now,
+      createdAt: new Date().toISOString(),
       applicants: 0,
     };
 

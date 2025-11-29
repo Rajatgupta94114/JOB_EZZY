@@ -12,10 +12,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const users = getUsers() as any[];
+    const users = getUsers();
     
     // Check if user exists
-    const existingUser = users.find((u: any) => u.username === username) as any;
+    const existingUser = users.find((u: any) => u.username === username);
 
     let user;
     if (existingUser) {
