@@ -1,4 +1,4 @@
-import { getUsers } from '@/lib/db';
+import { getUsers } from '@/lib/db-sqlite';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

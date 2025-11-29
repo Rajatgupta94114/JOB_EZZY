@@ -1,4 +1,4 @@
-import { getConnections, saveConnections } from '@/lib/db';
+import { getConnections, saveConnection } from '@/lib/db-sqlite';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const connections = getConnections();
+    const connections = getConnections() as any[];
 
     // Check if connection already exists
     const existingConnection = connections.find(
@@ -52,11 +52,10 @@ export async function POST(request: NextRequest) {
       userId,
       connectedUserId,
       status: 'connected',
-      connectedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     };
 
-    connections.push(newConnection);
-    saveConnections(connections);
+    saveConnection(newConnection);
 
     return NextResponse.json(newConnection);
   } catch (error) {

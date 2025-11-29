@@ -1,4 +1,4 @@
-import { getJobs, saveJobs } from '@/lib/db';
+import { getJobs, saveJob } from '@/lib/db-sqlite';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const jobs = getJobs();
     const jobId = `job_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     const newJob = {
@@ -42,8 +41,7 @@ export async function POST(request: NextRequest) {
       applicants: 0,
     };
 
-    jobs.push(newJob);
-    saveJobs(jobs);
+    saveJob(newJob);
 
     return NextResponse.json(newJob);
   } catch (error) {

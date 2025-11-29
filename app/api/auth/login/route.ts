@@ -1,4 +1,4 @@
-import { getUsers, saveUsers } from '@/lib/db';
+import { getUsers, saveUser } from '@/lib/db-sqlite';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const users = getUsers();
+    const users = getUsers() as any[];
     
     // Check if user exists
     const existingUser = users.find((u: any) => u.username === username);
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       // Update wallet if provided
       if (walletAddress) {
         existingUser.walletAddress = walletAddress;
-        saveUsers(users);
+        saveUser(existingUser);
       }
       user = existingUser;
     } else {
@@ -36,12 +36,12 @@ export async function POST(request: NextRequest) {
         walletAddress: walletAddress || null,
         rating: 0,
         pointsBalance: 0,
+        sbtBalance: 0,
         kycStatus: 'pending',
         createdAt: new Date().toISOString(),
       };
       
-      users.push(newUser);
-      saveUsers(users);
+      saveUser(newUser);
       user = newUser;
     }
 
