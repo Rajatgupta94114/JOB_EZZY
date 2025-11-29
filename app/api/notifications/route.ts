@@ -66,19 +66,20 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing notification id' }, { status: 400 });
     }
 
-    const notifications = getNotifications();
+    const notifications = getNotifications() as any[];
     const index = notifications.findIndex((n: any) => n.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Notification not found' }, { status: 404 });
     }
 
+    const notification = notifications[index] as any;
     if (read !== undefined) {
-      notifications[index].read = read;
+      notification.read = read;
     }
 
     saveNotifications(notifications);
-    return NextResponse.json(notifications[index]);
+    return NextResponse.json(notification);
   } catch (error) {
     console.error('Error updating notification:', error);
     return NextResponse.json({ error: 'Failed to update notification' }, { status: 500 });

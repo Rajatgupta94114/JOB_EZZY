@@ -87,29 +87,30 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing escrow id' }, { status: 400 });
     }
 
-    const escrows = getEscrows();
+    const escrows = getEscrows() as any[];
     const index = escrows.findIndex((e: any) => e.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Escrow not found' }, { status: 404 });
     }
 
+    const escrow = escrows[index] as any;
     if (status) {
-      escrows[index].status = status;
+      escrow.status = status;
     }
 
     if (confirmationStatus) {
-      escrows[index].confirmationStatus = confirmationStatus;
+      escrow.confirmationStatus = confirmationStatus;
     }
 
     if (paymentStatus) {
-      escrows[index].paymentStatus = paymentStatus;
+      escrow.paymentStatus = paymentStatus;
     }
 
-    escrows[index].updatedAt = new Date().toISOString();
+    escrow.updatedAt = new Date().toISOString();
 
     saveEscrows(escrows);
-    return NextResponse.json(escrows[index]);
+    return NextResponse.json(escrow);
   } catch (error) {
     console.error('Error updating escrow:', error);
     return NextResponse.json({ error: 'Failed to update escrow' }, { status: 500 });

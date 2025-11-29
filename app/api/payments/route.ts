@@ -90,21 +90,22 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing payment id' }, { status: 400 });
     }
 
-    const payments = getPayments();
+    const payments = getPayments() as any[];
     const index = payments.findIndex((p: any) => p.id === id);
 
     if (index === -1) {
       return NextResponse.json({ error: 'Payment not found' }, { status: 404 });
     }
 
-    if (status) payments[index].status = status;
-    if (candidateWalletAddress) payments[index].candidateWalletAddress = candidateWalletAddress;
-    if (transactionHash) payments[index].transactionHash = transactionHash;
+    const payment = payments[index] as any;
+    if (status) payment.status = status;
+    if (candidateWalletAddress) payment.candidateWalletAddress = candidateWalletAddress;
+    if (transactionHash) payment.transactionHash = transactionHash;
 
-    payments[index].updatedAt = new Date().toISOString();
+    payment.updatedAt = new Date().toISOString();
 
     savePayments(payments);
-    return NextResponse.json(payments[index]);
+    return NextResponse.json(payment);
   } catch (error) {
     console.error('Error updating payment:', error);
     return NextResponse.json({ error: 'Failed to update payment' }, { status: 500 });
