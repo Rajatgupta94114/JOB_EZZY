@@ -134,5 +134,22 @@
     "confirmationStatus": "confirmed",
     "createdAt": "2025-11-29T08:07:37.989Z",
     "updatedAt": "2025-11-29T08:08:23.719Z"
+  },
+  {
+    "id": "escrow_1764405737132",
+    "applicationId": "1764405644232",
+    "companyId": "user_1764404137358_1agsd8xg9",
+    "candidateId": "user_1764404958640_97dqjczux",
+    "jobTitle": "Software developer",
+    "startDate": "2025-11-29",
+    "endDate": "2025-11-30",
+    "amount": "0.05",
+    "currency": "TON",
+    "description": "ABC",
+    "terms": "ABC",
+    "status": "active",
+    "confirmationStatus": "confirmed",
+    "createdAt": "2025-11-29T08:42:17.132Z",
+    "updatedAt": "2025-11-29T08:42:52.646Z"
   }
 ]

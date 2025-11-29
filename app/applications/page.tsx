@@ -37,12 +37,25 @@ interface Job {
   createdBy: string;
 }
 
+interface Payment {
+  id: string;
+  escrowId: string;
+  amount: string;
+  currency: string;
+  candidateWalletAddress: string;
+  transactionHash: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function ApplicationsPage() {
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
   const [applications, setApplications] = useState<Application[]>([]);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [escrows, setEscrows] = useState<any[]>([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'pending' | 'accepted' | 'rejected'>('all');
 
@@ -62,16 +75,18 @@ export default function ApplicationsPage() {
 
   const fetchData = async () => {
     try {
-      const [appsRes, jobsRes, escrowRes] = await Promise.all([
+      const [appsRes, jobsRes, escrowRes, paymentsRes] = await Promise.all([
         fetch('/api/applications'),
         fetch('/api/jobs'),
         fetch('/api/escrow'),
+        fetch(`/api/payments?companyId=${user?.id}`),
       ]);
 
-      if (appsRes.ok && jobsRes.ok && escrowRes.ok) {
+      if (appsRes.ok && jobsRes.ok && escrowRes.ok && paymentsRes.ok) {
         const allApps = await appsRes.json();
         const allJobs = await jobsRes.json();
         const allEscrows = await escrowRes.json();
+        const allPayments = await paymentsRes.json();
 
         // Filter applications for jobs created by this company
         const companyJobIds = allJobs
@@ -85,12 +100,17 @@ export default function ApplicationsPage() {
         setApplications(companyApps);
         setJobs(allJobs);
         setEscrows(allEscrows);
+        setPayments(allPayments);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const getPaymentForEscrow = (escrowId: string): Payment | undefined => {
+    return payments.find(p => p.escrowId === escrowId && p.status === 'completed');
   };
 
   const handleDownloadResume = (app: Application) => {
@@ -333,13 +353,39 @@ export default function ApplicationsPage() {
                                 <Download size={16} />
                                 Download Contract
                               </button>
-                              <button
-                                onClick={() => router.push(`/payment/${escrow.id}`)}
-                                className="flex-1 py-2 px-4 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-all flex items-center justify-center gap-2 text-sm font-bold"
-                              >
-                                💰 Make Payment
-                              </button>
+                              {!getPaymentForEscrow(escrow.id) ? (
+                                <button
+                                  onClick={() => router.push(`/payment/${escrow.id}`)}
+                                  className="flex-1 py-2 px-4 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-all flex items-center justify-center gap-2 text-sm font-bold"
+                                >
+                                  💰 Make Payment
+                                </button>
+                              ) : (
+                                <div className="flex-1 py-2 px-4 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center gap-2 text-sm font-bold">
+                                  ✓ Payment Completed
+                                </div>
+                              )}
                             </div>
+                            
+                            {getPaymentForEscrow(escrow.id) && (
+                              <div className="mt-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                                <p className="text-green-300 font-bold text-sm mb-2">✓ Payment Sent</p>
+                                <div className="space-y-2 text-xs">
+                                  <div className="flex justify-between">
+                                    <span className="text-dark-400">Amount:</span>
+                                    <span className="text-white font-bold">{getPaymentForEscrow(escrow.id)?.amount} {getPaymentForEscrow(escrow.id)?.currency}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-dark-400">Transaction:</span>
+                                    <span className="text-accent-300 font-mono">{getPaymentForEscrow(escrow.id)?.transactionHash?.substring(0, 16)}...</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-dark-400">Sent:</span>
+                                    <span className="text-white">{new Date(getPaymentForEscrow(escrow.id)?.updatedAt || '').toLocaleDateString()}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ) : null;
                       })()}

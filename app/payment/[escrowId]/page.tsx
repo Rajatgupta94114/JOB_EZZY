@@ -175,6 +175,9 @@ export default function PaymentPage() {
     }
 
     setSubmitting(true);
+    // Show coin animation immediately while processing
+    setShowCoinAnimation(true);
+    
     try {
       // Create TON transaction
       const transaction = {
@@ -232,8 +235,8 @@ export default function PaymentPage() {
               }),
             });
 
-            // Trigger coin animation
-            setShowCoinAnimation(true);
+            // Wait for animation to complete (3.5-4 seconds)
+            await new Promise(resolve => setTimeout(resolve, 4000));
             
             setStep('completed');
             alert('Payment sent successfully! Transaction is being processed on the TON blockchain.');
