@@ -1,0 +1,65 @@
+[
+  {
+    "id": "msg_1764183980143_fx97u0t5x",
+    "conversationId": "user_1764182633397_npdxe39au_user_1764182769619_54jg5s5mj",
+    "senderId": "user_1764182769619_54jg5s5mj",
+    "receiverId": "user",
+    "message": "His",
+    "createdAt": "2025-11-26T19:06:20.143Z",
+    "read": false
+  },
+  {
+    "id": "msg_1764184274110_4i9mobpqg",
+    "conversationId": "user_1764182633397_npdxe39au_user_1764182769619_54jg5s5mj",
+    "senderId": "user_1764182633397_npdxe39au",
+    "receiverId": "user",
+    "message": "hiii",
+    "createdAt": "2025-11-26T19:11:14.110Z",
+    "read": false
+  },
+  {
+    "id": "msg_1764188527269_tmqe2454r",
+    "conversationId": "user_user_1764182769619_54jg5s5mj",
+    "senderId": "user_1764182769619_54jg5s5mj",
+    "receiverId": "user",
+    "message": "Hiii",
+    "createdAt": "2025-11-26T20:22:07.269Z",
+    "read": false
+  },
+  {
+    "id": "msg_1764188575269_0vm6j5ffc",
+    "conversationId": "user_1764182633397_npdxe39au_user_1764182769619_54jg5s5mj",
+    "senderId": "user_1764182633397_npdxe39au",
+    "receiverId": "user",
+    "message": "hiii",
+    "createdAt": "2025-11-26T20:22:55.269Z",
+    "read": false
+  },
+  {
+    "id": "msg_1764189455896_udyo50eoa",
+    "conversationId": "user_1764182633397_npdxe39au_user_1764182769619_54jg5s5mj",
+    "senderId": "user_1764182769619_54jg5s5mj",
+    "receiverId": "user",
+    "message": "HII",
+    "createdAt": "2025-11-26T20:37:35.896Z",
+    "read": false
+  },
+  {
+    "id": "msg_1764222356414_k3p2dwsmw",
+    "conversationId": "user_1764220225686_mzgl9bw6r_user_1764220383954_n6sg9oonn",
+    "senderId": "user_1764220225686_mzgl9bw6r",
+    "receiverId": "user",
+    "message": "Hiiii",
+    "createdAt": "2025-11-27T05:45:56.414Z",
+    "read": false
+  },
+  {
+    "id": "msg_1764222396839_8onsm8wfd",
+    "conversationId": "user_1764220225686_mzgl9bw6r_user_1764220383954_n6sg9oonn",
+    "senderId": "user_1764220383954_n6sg9oonn",
+    "receiverId": "user",
+    "message": "Hiii",
+    "createdAt": "2025-11-27T05:46:36.839Z",
+    "read": false
+  }
+]

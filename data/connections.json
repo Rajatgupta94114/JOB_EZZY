@@ -1,0 +1,30 @@
+[
+  {
+    "id": "conn_1764183957284_id27trj8k",
+    "userId": "user_1764182769619_54jg5s5mj",
+    "connectedUserId": "user_1764182633397_npdxe39au",
+    "status": "connected",
+    "connectedAt": "2025-11-26T19:05:57.284Z"
+  },
+  {
+    "id": "conn_1764216587280_nwuf4avyc",
+    "userId": "user_1764216364872_bbju5k6yl",
+    "connectedUserId": "user_1764215880690_yuu5rbdff",
+    "status": "connected",
+    "connectedAt": "2025-11-27T04:09:47.281Z"
+  },
+  {
+    "id": "conn_1764217433390_01lrm8e47",
+    "userId": "user_1764215577421_jqpg8ce44",
+    "connectedUserId": "user_1764216364872_bbju5k6yl",
+    "status": "connected",
+    "connectedAt": "2025-11-27T04:23:53.390Z"
+  },
+  {
+    "id": "conn_1764222346106_2alfbe1qz",
+    "userId": "user_1764220225686_mzgl9bw6r",
+    "connectedUserId": "user_1764220383954_n6sg9oonn",
+    "status": "connected",
+    "connectedAt": "2025-11-27T05:45:46.106Z"
+  }
+]

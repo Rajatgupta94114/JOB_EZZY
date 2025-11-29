@@ -1,0 +1,140 @@
+import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.json');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+
+function initializePaymentsFile() {
+  ensureDataDir();
+  if (!fs.existsSync(PAYMENTS_FILE)) {
+    fs.writeFileSync(PAYMENTS_FILE, JSON.stringify([], null, 2));
+  }
+}
+
+function getPayments() {
+  initializePaymentsFile();
+  const data = fs.readFileSync(PAYMENTS_FILE, 'utf-8');
+  return JSON.parse(data);
+}
+
+function savePayments(payments: any[]) {
+  ensureDataDir();
+  fs.writeFileSync(PAYMENTS_FILE, JSON.stringify(payments, null, 2));
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const escrowId = request.nextUrl.searchParams.get('escrowId');
+    const companyId = request.nextUrl.searchParams.get('companyId');
+    const candidateId = request.nextUrl.searchParams.get('candidateId');
+    
+    const payments = getPayments();
+
+    if (escrowId) {
+      return NextResponse.json(
+        payments.filter((p: any) => p.escrowId === escrowId)
+      );
+    }
+
+    if (companyId) {
+      return NextResponse.json(
+        payments.filter((p: any) => p.companyId === companyId)
+      );
+    }
+
+    if (candidateId) {
+      return NextResponse.json(
+        payments.filter((p: any) => p.candidateId === candidateId)
+      );
+    }
+
+    return NextResponse.json(payments);
+  } catch (error) {
+    console.error('Error fetching payments:', error);
+    return NextResponse.json({ error: 'Failed to fetch payments' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const {
+      escrowId,
+      companyId,
+      candidateId,
+      amount,
+      currency,
+      candidateWalletAddress,
+      transactionHash,
+      status = 'pending',
+    } = body;
+
+    if (!escrowId || !companyId || !candidateId || !amount) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    const payments = getPayments();
+
+    const newPayment = {
+      id: `payment_${Date.now()}`,
+      escrowId,
+      companyId,
+      candidateId,
+      amount,
+      currency: currency || 'TON',
+      candidateWalletAddress: candidateWalletAddress || null,
+      transactionHash: transactionHash || null,
+      status, // pending, wallet_requested, wallet_received, completed, failed
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    payments.push(newPayment);
+    savePayments(payments);
+
+    return NextResponse.json(newPayment, { status: 201 });
+  } catch (error) {
+    console.error('Error creating payment:', error);
+    return NextResponse.json({ error: 'Failed to create payment' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { id, status, candidateWalletAddress, transactionHash } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'Missing payment id' }, { status: 400 });
+    }
+
+    const payments = getPayments();
+    const index = payments.findIndex((p: any) => p.id === id);
+
+    if (index === -1) {
+      return NextResponse.json({ error: 'Payment not found' }, { status: 404 });
+    }
+
+    if (status) payments[index].status = status;
+    if (candidateWalletAddress) payments[index].candidateWalletAddress = candidateWalletAddress;
+    if (transactionHash) payments[index].transactionHash = transactionHash;
+
+    payments[index].updatedAt = new Date().toISOString();
+
+    savePayments(payments);
+    return NextResponse.json(payments[index]);
+  } catch (error) {
+    console.error('Error updating payment:', error);
+    return NextResponse.json({ error: 'Failed to update payment' }, { status: 500 });
+  }
+}

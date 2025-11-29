@@ -1,0 +1,15 @@
+[
+  {
+    "id": "payment_1764232864365",
+    "escrowId": "escrow_1764220645100",
+    "companyId": "user_1764220225686_mzgl9bw6r",
+    "candidateId": "user_1764220383954_n6sg9oonn",
+    "amount": "100",
+    "currency": "TON",
+    "candidateWalletAddress": "jhfjh",
+    "transactionHash": "lknlkj",
+    "status": "completed",
+    "createdAt": "2025-11-27T08:41:04.365Z",
+    "updatedAt": "2025-11-27T08:55:45.347Z"
+  }
+]

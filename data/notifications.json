@@ -1,0 +1,86 @@
+[
+  {
+    "id": "notif_1764215431667",
+    "senderId": "user_1764182633397_npdxe39au",
+    "recipientId": "1764189430098",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "RHD has created an escrow contract for the position of Full Stack developer. Please review and approve the contract.",
+    "escrowId": "escrow_1764189626933",
+    "applicationId": "1764189430098",
+    "read": false,
+    "createdAt": "2025-11-27T03:50:31.667Z"
+  },
+  {
+    "id": "notif_1764216685411",
+    "senderId": "user_1764215880690_yuu5rbdff",
+    "recipientId": "1764216559752",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "ABC has created an escrow contract for the position of TON. Please review and approve the contract.",
+    "escrowId": "escrow_1764216685312",
+    "applicationId": "1764216559752",
+    "read": false,
+    "createdAt": "2025-11-27T04:11:25.411Z"
+  },
+  {
+    "id": "notif_1764217547828",
+    "senderId": "user_1764215577421_jqpg8ce44",
+    "recipientId": "1764217218201",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "TON has created an escrow contract for the position of React developer. Please review and approve the contract.",
+    "escrowId": "escrow_1764217547688",
+    "applicationId": "1764217218201",
+    "read": false,
+    "createdAt": "2025-11-27T04:25:47.828Z"
+  },
+  {
+    "id": "notif_1764218069845",
+    "senderId": "user_1764182633397_npdxe39au",
+    "recipientId": "1764217936169",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "RHD has created an escrow contract for the position of Full Stack developer. Please review and approve the contract.",
+    "escrowId": "escrow_1764218069726",
+    "applicationId": "1764217936169",
+    "read": false,
+    "createdAt": "2025-11-27T04:34:29.845Z"
+  },
+  {
+    "id": "notif_1764218716969",
+    "senderId": "user_1764218493416_qzs2n5vjz",
+    "recipientId": "user_1764218551273_ts4u4r2z3",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "XYZ has created an escrow contract for the position of UI / UX developer. Please review and approve the contract.",
+    "escrowId": "escrow_1764218716825",
+    "applicationId": "1764218617869",
+    "read": false,
+    "createdAt": "2025-11-27T04:45:16.969Z"
+  },
+  {
+    "id": "notif_1764220646695",
+    "senderId": "user_1764220225686_mzgl9bw6r",
+    "recipientId": "user_1764220383954_n6sg9oonn",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "Himanshi company has created an escrow contract for the position of UI developer. Please review and approve the contract.",
+    "escrowId": "escrow_1764220645100",
+    "applicationId": "1764220469461",
+    "read": false,
+    "createdAt": "2025-11-27T05:17:26.695Z"
+  },
+  {
+    "id": "notif_1764236338919",
+    "senderId": "user_1764220225686_mzgl9bw6r",
+    "recipientId": "user_1764236070059_xhuc33xkr",
+    "type": "escrow_created",
+    "title": "New Escrow Contract",
+    "message": "Himanshi company has created an escrow contract for the position of TON developer. Please review and approve the contract.",
+    "escrowId": "escrow_1764236338505",
+    "applicationId": "1764236286732",
+    "read": false,
+    "createdAt": "2025-11-27T09:38:58.919Z"
+  }
+]

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "user_1764182633397_npdxe39au",
+    "name": "RHD",
+    "username": "RHD",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-26T18:43:53.397Z"
+  },
+  {
+    "id": "user_1764182769619_54jg5s5mj",
+    "name": "Rajat",
+    "username": "Rajat",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-26T18:46:09.620Z"
+  },
+  {
+    "id": "user_1764215577421_jqpg8ce44",
+    "name": "TON",
+    "username": "TON",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T03:52:57.421Z"
+  },
+  {
+    "id": "user_1764215880690_yuu5rbdff",
+    "name": "ABC",
+    "username": "ABC",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T03:58:00.690Z"
+  },
+  {
+    "id": "user_1764216364872_bbju5k6yl",
+    "name": "Himanshi",
+    "username": "Himanshi",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T04:06:04.872Z"
+  },
+  {
+    "id": "user_1764218493416_qzs2n5vjz",
+    "name": "XYZ",
+    "username": "XYZ",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T04:41:33.416Z"
+  },
+  {
+    "id": "user_1764218551273_ts4u4r2z3",
+    "name": "Rajat Gupta",
+    "username": "Rajat Gupta",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T04:42:31.274Z"
+  },
+  {
+    "id": "user_1764220225686_mzgl9bw6r",
+    "name": "Himanshi company",
+    "username": "Himanshi company",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T05:10:25.686Z"
+  },
+  {
+    "id": "user_1764220383954_n6sg9oonn",
+    "name": "Divyansh",
+    "username": "Divyansh",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T05:13:03.954Z"
+  },
+  {
+    "id": "user_1764222276082_j4mxljuu6",
+    "name": "Himanshi Company",
+    "username": "Himanshi Company",
+    "role": "company",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T05:44:36.084Z"
+  },
+  {
+    "id": "user_1764236070059_xhuc33xkr",
+    "name": "Divyansh Tiwari",
+    "username": "Divyansh Tiwari",
+    "role": "candidate",
+    "walletAddress": null,
+    "rating": 0,
+    "pointsBalance": 0,
+    "kycStatus": "pending",
+    "createdAt": "2025-11-27T09:34:30.059Z"
+  }
+]
