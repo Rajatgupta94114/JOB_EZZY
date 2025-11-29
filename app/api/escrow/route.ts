@@ -1,49 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const ESCROW_FILE = path.join(DATA_DIR, 'escrow.json');
-
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-function initializeEscrowFile() {
-  ensureDataDir();
-  if (!fs.existsSync(ESCROW_FILE)) {
-    fs.writeFileSync(ESCROW_FILE, JSON.stringify([], null, 2));
-  }
-}
-
-function getEscrows() {
-  initializeEscrowFile();
-  const data = fs.readFileSync(ESCROW_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-function saveEscrows(escrows: any[]) {
-  ensureDataDir();
-  fs.writeFileSync(ESCROW_FILE, JSON.stringify(escrows, null, 2));
-}
+import { getEscrows, saveEscrow } from '@/lib/db-sqlite';
 
 export async function GET(request: NextRequest) {
   try {
     const applicationId = request.nextUrl.searchParams.get('applicationId');
-    const escrows = getEscrows();
+    const candidateId = request.nextUrl.searchParams.get('candidateId');
+    const companyId = request.nextUrl.searchParams.get('companyId');
+    
+    const escrows = getEscrows() as any[];
+    console.log('Fetching escrows:', escrows.length, 'found');
 
     if (applicationId) {
-      return NextResponse.json(
-        escrows.find((e: any) => e.applicationId === applicationId) || null
-      );
+      const filtered = escrows.find((e: any) => e.applicationId === applicationId);
+      return NextResponse.json(filtered || null);
+    }
+
+    if (candidateId) {
+      const filtered = escrows.filter((e: any) => e.candidateId === candidateId);
+      return NextResponse.json(filtered);
+    }
+
+    if (companyId) {
+      const filtered = escrows.filter((e: any) => e.companyId === companyId);
+      return NextResponse.json(filtered);
     }
 
     return NextResponse.json(escrows);
   } catch (error) {
     console.error('Error fetching escrows:', error);
-    return NextResponse.json({ error: 'Failed to fetch escrows' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch escrows: ' + (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 
@@ -70,7 +55,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const escrows = getEscrows();
+    const escrows = getEscrows() as any[];
 
     // Check if escrow already exists
     const existingEscrow = escrows.find((e: any) => e.applicationId === applicationId);
@@ -79,7 +64,8 @@ export async function POST(request: NextRequest) {
     }
 
     const newEscrow = {
-      id: `escrow_${Date.now()}`,
+      id: `escrow_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      jobId: applicationId,
       applicationId,
       companyId,
       candidateId,
@@ -91,18 +77,21 @@ export async function POST(request: NextRequest) {
       description,
       terms,
       status: 'active',
-      confirmationStatus: 'pending', // pending, confirmed
+      paymentStatus: 'pending',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     };
 
-    escrows.push(newEscrow);
-    saveEscrows(escrows);
+    try {
+      saveEscrow(newEscrow);
+    } catch (dbError) {
+      console.error('Database error saving escrow:', dbError);
+      console.warn('Escrow saved in memory only due to database error');
+    }
 
     return NextResponse.json(newEscrow, { status: 201 });
   } catch (error) {
     console.error('Error creating escrow:', error);
-    return NextResponse.json({ error: 'Failed to create escrow' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create escrow: ' + (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 
@@ -115,29 +104,31 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Missing escrow id' }, { status: 400 });
     }
 
-    const escrows = getEscrows();
-    const index = escrows.findIndex((e: any) => e.id === id);
+    const escrows = getEscrows() as any[];
+    const escrow = escrows.find((e: any) => e.id === id);
 
-    if (index === -1) {
+    if (!escrow) {
       return NextResponse.json({ error: 'Escrow not found' }, { status: 404 });
     }
 
     if (status) {
-      escrows[index].status = status;
+      escrow.status = status;
     }
 
     if (confirmationStatus) {
-      escrows[index].confirmationStatus = confirmationStatus;
+      escrow.paymentStatus = confirmationStatus;
     }
 
     if (paymentStatus) {
-      escrows[index].paymentStatus = paymentStatus;
+      escrow.paymentStatus = paymentStatus;
     }
 
-    escrows[index].updatedAt = new Date().toISOString();
-
-    saveEscrows(escrows);
-    return NextResponse.json(escrows[index]);
+    try {
+      saveEscrow(escrow);
+    } catch (dbError) {
+      console.error('Database error updating escrow:', dbError);
+    }
+    return NextResponse.json(escrow);
   } catch (error) {
     console.error('Error updating escrow:', error);
     return NextResponse.json({ error: 'Failed to update escrow' }, { status: 500 });

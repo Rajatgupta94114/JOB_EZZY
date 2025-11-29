@@ -3,12 +3,20 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const jobs = getJobs();
-    return NextResponse.json(jobs);
+    const jobs = getJobs() as any[];
+    console.log('Fetching jobs from database:', jobs.length, 'jobs found');
+    
+    // Parse skills if they're stored as JSON strings
+    const parsedJobs = jobs.map((job: any) => ({
+      ...job,
+      skills: typeof job.skills === 'string' ? JSON.parse(job.skills || '[]') : (job.skills || []),
+    }));
+    
+    return NextResponse.json(parsedJobs);
   } catch (error) {
     console.error('Get jobs error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch jobs: ' + (error instanceof Error ? error.message : String(error)) },
       { status: 500 }
     );
   }

@@ -6,21 +6,33 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const jobId = searchParams.get('jobId');
     const candidateId = searchParams.get('candidateId');
+    const companyId = searchParams.get('companyId');
 
-    const applications = getApplications();
+    const applications = getApplications() as any[];
+    console.log('Fetching applications:', applications.length, 'found');
 
     if (jobId) {
-      return NextResponse.json(applications.filter((a: any) => a.jobId === jobId));
+      const filtered = applications.filter((a: any) => a.jobId === jobId);
+      console.log('Filtered by jobId:', filtered.length);
+      return NextResponse.json(filtered);
     }
 
     if (candidateId) {
-      return NextResponse.json(applications.filter((a: any) => a.candidateId === candidateId));
+      const filtered = applications.filter((a: any) => a.candidateId === candidateId);
+      console.log('Filtered by candidateId:', filtered.length);
+      return NextResponse.json(filtered);
+    }
+
+    if (companyId) {
+      const filtered = applications.filter((a: any) => a.companyId === companyId);
+      console.log('Filtered by companyId:', filtered.length);
+      return NextResponse.json(filtered);
     }
 
     return NextResponse.json(applications);
   } catch (error) {
     console.error('Error fetching applications:', error);
-    return NextResponse.json({ error: 'Failed to fetch applications' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch applications: ' + (error instanceof Error ? error.message : String(error)) }, { status: 500 });
   }
 }
 

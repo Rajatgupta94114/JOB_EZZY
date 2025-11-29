@@ -34,7 +34,10 @@ export default function JobsPage() {
         const response = await fetch('/api/jobs');
         if (response.ok) {
           const data = await response.json();
+          console.log('Fetched jobs:', data);
           setJobs(data);
+        } else {
+          console.error('Failed to fetch jobs:', response.status);
         }
       } catch (error) {
         console.error('Error fetching jobs:', error);
@@ -42,6 +45,10 @@ export default function JobsPage() {
     };
 
     fetchJobs();
+    
+    // Refresh jobs every 5 seconds to show newly created jobs
+    const interval = setInterval(fetchJobs, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   // Filter jobs based on user role

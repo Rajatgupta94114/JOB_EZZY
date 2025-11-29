@@ -85,6 +85,9 @@ export default function CreateJobPage() {
         throw new Error(data.error || 'Failed to create job');
       }
 
+      // Show success message
+      alert('Job created successfully!');
+      
       // Redirect to jobs list
       router.push('/jobs');
     } catch (error) {
