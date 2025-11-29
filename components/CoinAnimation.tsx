@@ -15,7 +15,10 @@ export default function CoinAnimation({ isVisible, direction, onComplete }: Coin
   const [coins, setCoins] = useState<Array<{ id: number; left: number; delay: number }>>([]);
 
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible) {
+      setCoins([]);
+      return;
+    }
 
     // Create 20-30 coins with random delays
     const coinCount = Math.floor(Math.random() * 11) + 20; // 20-30 coins
@@ -24,15 +27,18 @@ export default function CoinAnimation({ isVisible, direction, onComplete }: Coin
       left: Math.random() * 90 + 5, // Random position 5-95%
       delay: Math.random() * 0.5, // Staggered start (0-0.5s)
     }));
+    
+    console.log('Creating coins:', newCoins.length, 'Direction:', direction);
     setCoins(newCoins);
 
     // Complete animation after 4 seconds
     const timer = setTimeout(() => {
+      console.log('Animation complete');
       onComplete?.();
     }, 4000);
 
     return () => clearTimeout(timer);
-  }, [isVisible, onComplete]);
+  }, [isVisible, onComplete, direction]);
 
   if (!isVisible) return null;
 
