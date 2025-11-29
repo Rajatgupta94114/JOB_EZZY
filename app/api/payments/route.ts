@@ -1,33 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.json');
-
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-function initializePaymentsFile() {
-  ensureDataDir();
-  if (!fs.existsSync(PAYMENTS_FILE)) {
-    fs.writeFileSync(PAYMENTS_FILE, JSON.stringify([], null, 2));
-  }
-}
-
-function getPayments() {
-  initializePaymentsFile();
-  const data = fs.readFileSync(PAYMENTS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-function savePayments(payments: any[]) {
-  ensureDataDir();
-  fs.writeFileSync(PAYMENTS_FILE, JSON.stringify(payments, null, 2));
-}
+import { getPayments, savePayments } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {

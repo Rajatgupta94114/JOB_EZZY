@@ -1,33 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const ESCROW_FILE = path.join(DATA_DIR, 'escrow.json');
-
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-function initializeEscrowFile() {
-  ensureDataDir();
-  if (!fs.existsSync(ESCROW_FILE)) {
-    fs.writeFileSync(ESCROW_FILE, JSON.stringify([], null, 2));
-  }
-}
-
-function getEscrows() {
-  initializeEscrowFile();
-  const data = fs.readFileSync(ESCROW_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-function saveEscrows(escrows: any[]) {
-  ensureDataDir();
-  fs.writeFileSync(ESCROW_FILE, JSON.stringify(escrows, null, 2));
-}
+import { getEscrows, saveEscrows } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {

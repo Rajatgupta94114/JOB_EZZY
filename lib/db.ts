@@ -10,6 +10,7 @@ const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
 const ESCROWS_FILE = path.join(DATA_DIR, 'escrows.json');
 const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.json');
 const RATINGS_FILE = path.join(DATA_DIR, 'ratings.json');
+const NOTIFICATIONS_FILE = path.join(DATA_DIR, 'notifications.json');
 
 // In-memory fallback for Vercel (read-only filesystem)
 let inMemoryData: any = {
@@ -21,6 +22,7 @@ let inMemoryData: any = {
   escrows: [],
   payments: [],
   ratings: [],
+  notifications: [],
 };
 
 const isVercel = process.env.VERCEL === '1';
@@ -293,5 +295,32 @@ export function saveRatings(ratings: any[]) {
     fs.writeFileSync(RATINGS_FILE, JSON.stringify(ratings, null, 2));
   } catch (error) {
     console.warn('Error saving ratings:', error);
+  }
+}
+
+export function getNotifications() {
+  if (isVercel) return inMemoryData.notifications;
+  
+  initializeDataFiles();
+  try {
+    const data = fs.readFileSync(NOTIFICATIONS_FILE, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.warn('Error reading notifications:', error);
+    return [];
+  }
+}
+
+export function saveNotifications(notifications: any[]) {
+  if (isVercel) {
+    inMemoryData.notifications = notifications;
+    return;
+  }
+  
+  ensureDataDir();
+  try {
+    fs.writeFileSync(NOTIFICATIONS_FILE, JSON.stringify(notifications, null, 2));
+  } catch (error) {
+    console.warn('Error saving notifications:', error);
   }
 }

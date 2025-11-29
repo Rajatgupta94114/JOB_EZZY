@@ -1,33 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const RATINGS_FILE = path.join(DATA_DIR, 'ratings.json');
-
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-function initializeRatingsFile() {
-  ensureDataDir();
-  if (!fs.existsSync(RATINGS_FILE)) {
-    fs.writeFileSync(RATINGS_FILE, JSON.stringify([], null, 2));
-  }
-}
-
-function getRatings() {
-  initializeRatingsFile();
-  const data = fs.readFileSync(RATINGS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-function saveRatings(ratings: any[]) {
-  ensureDataDir();
-  fs.writeFileSync(RATINGS_FILE, JSON.stringify(ratings, null, 2));
-}
+import { getRatings, saveRatings } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {

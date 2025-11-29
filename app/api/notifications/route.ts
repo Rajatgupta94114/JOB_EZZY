@@ -1,33 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const NOTIFICATIONS_FILE = path.join(DATA_DIR, 'notifications.json');
-
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-function initializeNotificationsFile() {
-  ensureDataDir();
-  if (!fs.existsSync(NOTIFICATIONS_FILE)) {
-    fs.writeFileSync(NOTIFICATIONS_FILE, JSON.stringify([], null, 2));
-  }
-}
-
-function getNotifications() {
-  initializeNotificationsFile();
-  const data = fs.readFileSync(NOTIFICATIONS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-function saveNotifications(notifications: any[]) {
-  ensureDataDir();
-  fs.writeFileSync(NOTIFICATIONS_FILE, JSON.stringify(notifications, null, 2));
-}
+import { getNotifications, saveNotifications } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
