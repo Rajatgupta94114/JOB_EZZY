@@ -175,8 +175,6 @@ export default function PaymentPage() {
     }
 
     setSubmitting(true);
-    // Show coin animation immediately while processing
-    setShowCoinAnimation(true);
     
     try {
       // Create TON transaction
@@ -235,6 +233,9 @@ export default function PaymentPage() {
               }),
             });
 
+            // Show coin animation
+            setShowCoinAnimation(true);
+            
             // Wait for animation to complete (3.5-4 seconds)
             await new Promise(resolve => setTimeout(resolve, 4000));
             
